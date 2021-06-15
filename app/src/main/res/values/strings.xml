@@ -1,0 +1,33 @@
+<resources>
+    <string name="app_name">Book hai kaya</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="setting_activity_label">Setting</string>
+    //Toast string
+    <string name="toast_item_reach">last item reached</string>
+
+    //Preference String
+    <string name="settings_order_by_newest_label">Newest</string>
+    <string name="settings_order_by_relevence_label">Relevance</string>
+    <string name="settings_order_by_newest_value">newest</string>
+    <string name="settings_order_by_relevence_value">relevance</string>
+
+    <string name="list_prefernence_order_title">OrderBy</string>
+    <string name="list_preference_orderBy_key">list_prference_orderBy_key</string>
+
+    <string name="edit_preference_title">Search</string>
+    <string name="edit_preference_default_search_key">defualt_search_key</string>
+    <string name="edit_preference_search_default_value">premchand</string>
+
+
+    <string name="setting_filter_free_ebook_label">Free-ebook</string>
+    <string name="setting_filter_paid_ebook_label">Paid-ebook</string>
+    <string name="setting_filter_ebook_label">ebook</string>
+    <string name="setting_filter_none_label">None</string>
+    <string name="setting_filter_free_ebook_vlaue">free-ebooks</string>
+    <string name="setting_filter_paid_ebook_vlaue">paid-ebooks</string>
+    <string name="setting_filter_ebook_vlaue">ebooks</string>
+    <string name="setting_filter_noen_value">none</string>
+    <string name="list_preference_filter_key">filter_key</string>
+    <string name="list_preference_filter_title">Filter</string>
+
+</resources>
