@@ -26,6 +26,7 @@ import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.AbsListView;
+import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageButton;
@@ -52,16 +53,17 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<List<Book>> {
     public static final String TAG = MainActivity.class.getName();
-    public static final String API_BOOK_KEY="AIzaSyDUiHq6rQlWqFe970tHECMyElhXldsWgio";
-    public static final String API_KEY_PARAMETER="key";
+    public static final String API_BOOK_KEY = "AIzaSyDUiHq6rQlWqFe970tHECMyElhXldsWgio";
+    public static final String API_KEY_PARAMETER = "key";
 
     public static final String API_SAVE_STATE_KEY = "api_url";
     public static final int LOADER_ID = 1;
     private static final String FILTER_PARAMETER = "filter";
+    public static final String ID_KEY = "key_id";
     String searchText = "";
     public String API_URL = "";
     public static final String BASE_URL = "https://www.googleapis.com/books/v1/volumes";
-    public static final String QUERY_PARAMETER="q";
+    public static final String QUERY_PARAMETER = "q";
     public static final String START_INDEX_PARAMETER = "startIndex";
     public static final String MAXRESULT_PARAMETER = "maxResults";
     public static final String ORDERBY_PARAMETER = "orderBy";
@@ -77,21 +79,22 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     LoaderManager loaderManager;
     private SearchView searchView;
     ProgressBar progressBarSpinkitLoadingMore;
+    boolean checkReload = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        checkReload = false;
         AppSinglton.setDefaultpreference(this);
-
+        Log.i(TAG, "onCreate: ");
 
         //setiing loading more progressbar
         progressBarSpinkitLoadingMore = findViewById(R.id.lodingMoreSpinner);
         Sprite sprite = new ThreeBounce();
         progressBarSpinkitLoadingMore.setIndeterminateDrawable(sprite);
 
-        progressBarSpinner =  findViewById(R.id.loadingSpinner);
+        progressBarSpinner = findViewById(R.id.loadingSpinner);
         Sprite sprite2 = new ThreeBounce();
         progressBarSpinner.setIndeterminateDrawable(sprite2);
         progressBarSpinner.setVisibility(View.VISIBLE);
@@ -112,6 +115,20 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         //  loaderManager.initLoader(1, null, this);
 
 
+        getSearchTxtAndStartLoader();
+
+
+        searchListener();
+
+        // TODO pagination cose is here
+        onScrollListenerWithPagination();
+
+        // onitemClick
+        setitemclick();
+
+    }
+
+    private void getSearchTxtAndStartLoader() {
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
         String searchpreference = sharedPrefs.getString(getString(R.string.edit_preference_default_search_key)
                 , getString(R.string.edit_preference_search_default_value));
@@ -123,16 +140,39 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
         API_URL = createApiUrl();
         loaderManager.initLoader(LOADER_ID, null, MainActivity.this);
-
-
-        searchListener();
-
-        // TODO pagination cose is here
-        onScrollListenerWithPagination();
-
-
     }
 
+    private void setitemclick() {
+        bookListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Book book = bookAdapter.getItem(position);
+                String bookId = book.getId();
+                Intent intent = new Intent(MainActivity.this, DetailActivity.class);
+                intent.putExtra( ID_KEY, bookId);
+                startActivity(intent);
+            }
+        });
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Log.i(TAG, "onPause: chrckReload=true");
+        checkReload=true;
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log.i(TAG, "onResume: ");
+        if (checkReload) {
+            if (loaderManager.getLoader(LOADER_ID) != null) {
+                loaderManager.getLoader(LOADER_ID).cancelLoad();
+                Log.i(TAG, "onResume: cancel load");
+            }
+        }
+    }
 
 
     private void onScrollListenerWithPagination() {
@@ -141,7 +181,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
             public void onScrollStateChanged(AbsListView view, int scrollState) {
                 if (!view.canScrollList(View.SCROLL_AXIS_VERTICAL) && scrollState == SCROLL_STATE_IDLE) {
                     //When List reaches bottom and the list isn't moving (is idle)
-                   // Toast.makeText(MainActivity.this, R.string.toast_item_reach, Toast.LENGTH_SHORT).show();
+                    // Toast.makeText(MainActivity.this, R.string.toast_item_reach, Toast.LENGTH_SHORT).show();
                     // Toast.makeText(MainActivity.this, "Loading more", Toast.LENGTH_SHORT).show();
 
                     progressBarSpinkitLoadingMore.setVisibility(View.VISIBLE);
@@ -202,6 +242,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
             @Override
             public boolean onQueryTextSubmit(String query) {
                 // TODO Auto-generated method stub
+                bookAdapter.clear();
                 startIndex = 0;
                 maxResult = 20;
                 bookListView.setVisibility(View.VISIBLE);
@@ -213,6 +254,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
             public boolean onQueryTextChange(String searchTxt) {
 
                 if (searchTxt.length() > 2) {
+                    bookAdapter.clear();
                     startIndex = 0;
                     maxResult = 20;
                     bookListView.setVisibility(View.VISIBLE);
@@ -230,7 +272,6 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
         });
     }
-
 
 
     //searching start from here
@@ -263,27 +304,24 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
                 getString(R.string.list_preference_orderBy_key),
                 getString(R.string.settings_order_by_relevence_value)
         );
-        String filterbypreference=sharedPrefs.getString(getString(R.string.list_preference_filter_key)
-        ,getString(R.string.setting_filter_noen_value));
+        String filterbypreference = sharedPrefs.getString(getString(R.string.list_preference_filter_key)
+                , getString(R.string.setting_filter_noen_value));
 
         //String queryString = MessageFormat.format(BASE_URL, searchPreference);
         Uri baseUri = Uri.parse(BASE_URL);
         Uri.Builder uriBuilder = baseUri.buildUpon();
-        uriBuilder.appendQueryParameter(QUERY_PARAMETER,searchPreference);
+        uriBuilder.appendQueryParameter(QUERY_PARAMETER, searchPreference);
         uriBuilder.appendQueryParameter(START_INDEX_PARAMETER, String.valueOf(startIndex));
         uriBuilder.appendQueryParameter(MAXRESULT_PARAMETER, String.valueOf(maxResult));
-        if(!filterbypreference.equals(getString(R.string.setting_filter_noen_value))){
+        if (!filterbypreference.equals(getString(R.string.setting_filter_noen_value))) {
             uriBuilder.appendQueryParameter(FILTER_PARAMETER, filterbypreference);
         }
         uriBuilder.appendQueryParameter(ORDERBY_PARAMETER, orderByPreference);
-        uriBuilder.appendQueryParameter(API_KEY_PARAMETER,API_BOOK_KEY);
+        uriBuilder.appendQueryParameter(API_KEY_PARAMETER, API_BOOK_KEY);
 
-        Log.i(TAG, "createApiUrl: " +uriBuilder.toString());
+        Log.i(TAG, "createApiUrl: " + uriBuilder.toString());
         return uriBuilder.toString();
     }
-
-
-
 
 
     @NonNull
@@ -291,7 +329,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     public Loader<List<Book>> onCreateLoader(int id, Bundle args) {
 
 
-        return new BookLoader(this, API_URL);
+        return new BookLoader(this, API_URL, 1);
 
     }
 
@@ -299,11 +337,6 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     public void onLoadFinished(@NonNull Loader<List<Book>> loader, List<Book> data) {
         progressBarSpinner.setVisibility(View.GONE);
         progressBarSpinkitLoadingMore.setVisibility(View.INVISIBLE);
-        if (startIndex >= 20) {
-
-        } else {
-            bookAdapter.clear();
-        }
 
         if (!isNetworkConnected()) {
             if (startIndex >= 20) {

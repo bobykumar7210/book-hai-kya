@@ -24,6 +24,7 @@
             android:id="@+id/searchView1"
             android:layout_width="0dp"
             android:layout_height="40dp"
+            android:inputType="textAutoComplete"
             android:layout_alignParentTop="true"
             android:background="@drawable/edit_text_border"
             android:layout_toLeftOf="@+id/imageButton1"

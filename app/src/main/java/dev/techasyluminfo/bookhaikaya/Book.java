@@ -6,20 +6,32 @@ public class Book {
     private String bookDesc;
     private String thumnailUrl;
     private String datepublished;
+    private String id;
 
-    public Book(String bookTitle, String authorName, String bookDesc, String thumnailUrl, String datepublished) {
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+    public Book(){}
+
+    public Book(String bookTitle, String authorName, String bookDesc, String thumnailUrl, String datepublished, String id) {
         this.bookTitle = bookTitle;
         this.authorName = authorName;
         this.bookDesc = bookDesc;
         this.thumnailUrl = thumnailUrl;
         this.datepublished = datepublished;
+        this.id=id;
     }
 
-    public Book(String bookTitle, String authorName, String bookDesc, String thumnailUrl) {
+    public Book(String bookTitle, String authorName, String bookDesc, String thumnailUrl,String datepublished) {
         this.bookTitle = bookTitle;
         this.authorName = authorName;
         this.bookDesc = bookDesc;
         this.thumnailUrl = thumnailUrl;
+        this.datepublished=datepublished;
 
     }
 

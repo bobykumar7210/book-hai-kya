@@ -23,8 +23,9 @@ import java.util.List;
 public class BookUtility {
 
     private static final String LOG_TAG = "BookUtility";
+    public static final String TEMP_IMAGE = "temp";
     public static int totalItem;
-
+    //fetching booklist from json
     public static List<Book> fetchBookData(String requestUrl) {
 
         // Create URL object
@@ -39,11 +40,33 @@ public class BookUtility {
         }
 
         // Extract relevant fields from the JSON response and create an {@link Event} object
-        List<Book> book = extractBookData(jsonResponse);
+        List<Book> bookList = extractBookData(jsonResponse);
 
         // Return the {@link Event}
-        return book;
+        return bookList;
     }
+    public static List<Book> fetchSingleBook(String requestUrl) {
+
+        // Create URL object
+        URL url = createUrl(requestUrl);
+
+        // Perform HTTP request to the URL and receive a JSON response back
+        String jsonResponse = null;
+        try {
+            jsonResponse = makeHttpRequest(url);
+        } catch (IOException e) {
+            Log.e(LOG_TAG, "Error closing input stream", e);
+        }
+
+        // Extract relevant fields from the JSON response and create an {@link Event} object
+       List<Book>  books = extractSingleBookDetail(jsonResponse);
+
+        // Return the {@link Event}
+        return books;
+    }
+
+
+
 
     private static URL createUrl(String stringUrl) {
         URL url = null;
@@ -157,7 +180,7 @@ public class BookUtility {
                 String bookThumnailUrl;
                 if (valueObject.isNull("imageLinks")) {
                     // TODO change image to defaul thumnail image
-                    bookThumnailUrl = "https://books.google.com/books/content?id=uskfEAAAQBAJ&printsec=frontcover&img=1&zoom=5&edge=curl&source=gbs_api";
+                    bookThumnailUrl = TEMP_IMAGE;
                 } else {
                     JSONObject imageObject = valueObject.getJSONObject("imageLinks");
                     bookThumnailUrl = imageObject.optString("thumbnail");
@@ -172,7 +195,14 @@ public class BookUtility {
                     publishedDate=valueObject.optString("publishedDate");
                 }
                 else publishedDate=" ";
-                bookList.add(new Book(boolTitle, authors.toString(), bookDesc, bookThumnailUrl,publishedDate));
+
+                //getting selflink from json
+                String id;
+                if(currentObject.isNull("selfLink")){
+                    id="";
+                }else id=currentObject.optString("selfLink");
+
+                bookList.add(new Book(boolTitle, authors.toString(), bookDesc, bookThumnailUrl,publishedDate,id));
             }
 
             // build up a list of Earthquake objects with the corresponding data.
@@ -186,6 +216,55 @@ public class BookUtility {
 
         // Return the list of earthquakes
         return bookList;
+    }
+    private static List<Book> extractSingleBookDetail(String jsonResponse)  {
+        if (TextUtils.isEmpty(jsonResponse)) {
+            return null;
+        }
+        List<Book> book=new ArrayList<>();
+        try {
+            JSONObject rootObject=new JSONObject(jsonResponse);
+            JSONObject valueInfoObject = rootObject.optJSONObject("volumeInfo");
+            //get authors from json
+            JSONArray authorArray = valueInfoObject.optJSONArray("authors");
+            StringBuilder authors = new StringBuilder();
+
+            if (authorArray == null) {
+                authors.append(" ");
+            } else {
+                for (int i = 0; i < authorArray.length(); i++) {
+                    String currentString = authorArray.optString(i);
+                    authors.append(currentString).append(",");
+                }
+            }
+            //get thumbnail from json
+            String bookThumnailUrl;
+            if (valueInfoObject.isNull("imageLinks")) {
+                // TODO change image to defaul thumnail image
+                bookThumnailUrl = TEMP_IMAGE;
+            } else {
+                JSONObject imageObject = valueInfoObject.getJSONObject("imageLinks");
+                bookThumnailUrl = imageObject.optString("thumbnail");
+            }
+            //get title from json
+            String bookTitle = valueInfoObject.optString("title");
+            //get description from json
+            String bookDesc = valueInfoObject.optString("description");
+            //get datePublished from json
+            String publishedDate;
+            if(!valueInfoObject.isNull("publishedDate")){
+                publishedDate=valueInfoObject.optString("publishedDate");
+            }
+
+            else publishedDate=" ";
+           book.add(new Book(bookTitle,authors.toString(),bookDesc,bookThumnailUrl,publishedDate));
+
+            return book;
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+        return null;
     }
 
 }

@@ -29,6 +29,7 @@
     <string name="setting_filter_noen_value">none</string>
     <string name="list_preference_filter_key">filter_key</string>
     <string name="list_preference_filter_title">Filter</string>
+    <string name="DetailactivityLabel">Book</string>
 
 
 </resources>

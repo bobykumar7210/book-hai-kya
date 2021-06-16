@@ -27,13 +27,16 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
+import static dev.techasyluminfo.bookhaikaya.BookUtility.TEMP_IMAGE;
+
 public class BookAdapter extends ArrayAdapter<Book> {
-   private Context mContext;
-   private List<Book> mBooklst;
+    private Context mContext;
+    private List<Book> mBooklst;
+
     public BookAdapter(@NonNull Context context, @NonNull List<Book> bookList) {
         super(context, 0, bookList);
-       this.mContext=context;
-       this.mBooklst=bookList;
+        this.mContext = context;
+        this.mBooklst = bookList;
     }
 
     public List<Book> getmBooklst() {
@@ -48,37 +51,40 @@ public class BookAdapter extends ArrayAdapter<Book> {
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-        final Book currentBookItem=getItem(position);
+        final Book currentBookItem = getItem(position);
 
-        View listItemView=convertView;
+        View listItemView = convertView;
 
 
-        if (listItemView==null){
-            listItemView= LayoutInflater.from(getContext()).inflate(R.layout.item,parent,false);
+        if (listItemView == null) {
+            listItemView = LayoutInflater.from(getContext()).inflate(R.layout.item, parent, false);
 
         }
 
 
-        TextView titleTextView= listItemView.findViewById(R.id.titleTextView);
-        TextView authorTextView=  listItemView.findViewById(R.id.authorTextView);
-        TextView bookDescTextView=  listItemView.findViewById(R.id.bookDescTextView);
-        ImageView thumnailImageView= listItemView.findViewById(R.id.thumnailImageView);
-        TextView publishedDateTextView=listItemView.findViewById(R.id.datePublishedTextView);
+        TextView titleTextView = listItemView.findViewById(R.id.titleTextView);
+        TextView authorTextView = listItemView.findViewById(R.id.authorTextView);
+        TextView bookDescTextView = listItemView.findViewById(R.id.bookDescTextView);
+        ImageView thumnailImageView = listItemView.findViewById(R.id.thumnailImageView);
+        TextView publishedDateTextView = listItemView.findViewById(R.id.datePublishedTextView);
         titleTextView.setText(currentBookItem.getBookTitle());
         publishedDateTextView.setText(currentBookItem.getDatepublished());
         authorTextView.setText(currentBookItem.getAuthorName());
-       // bookDescTextView.setText(currentBookItem.getBookDesc());
-        if(currentBookItem.getThumnailUrl()!=null) {
-            String thumnailUrl=currentBookItem.getThumnailUrl();
-            // TODO add code for background task to Load image
-            Picasso.get()
-                    .load(thumnailUrl)
-                    .into(thumnailImageView);        }
-
+        // bookDescTextView.setText(currentBookItem.getBookDesc());
+        if (currentBookItem.getThumnailUrl() != null) {
+            String thumnailUrl = currentBookItem.getThumnailUrl();
+            if (thumnailUrl.equals(TEMP_IMAGE)) {
+                thumnailImageView.setImageResource(R.drawable.temp_thumbnail);
+            } else {
+                // TODO add code for background task to Load image
+                Picasso.get()
+                        .load(thumnailUrl)
+                        .into(thumnailImageView);
+            }
+        }
 
         return listItemView;
     }
-
 
 
 }
