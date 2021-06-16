@@ -317,7 +317,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
             uriBuilder.appendQueryParameter(FILTER_PARAMETER, filterbypreference);
         }
         uriBuilder.appendQueryParameter(ORDERBY_PARAMETER, orderByPreference);
-        uriBuilder.appendQueryParameter(API_KEY_PARAMETER, API_BOOK_KEY);
+       // uriBuilder.appendQueryParameter(API_KEY_PARAMETER, API_BOOK_KEY);
 
         Log.i(TAG, "createApiUrl: " + uriBuilder.toString());
         return uriBuilder.toString();

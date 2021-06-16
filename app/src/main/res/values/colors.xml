@@ -4,4 +4,6 @@
     <color name="colorPrimaryDark">#024740</color>
     <color name="colorAccent">#03DAC5</color>
     <color name="color_view_line">#000000</color>
+    <color name="colorSolid">#000000</color>
+
 </resources>

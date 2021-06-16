@@ -223,8 +223,13 @@ public class BookUtility {
         }
         List<Book> book=new ArrayList<>();
         try {
+
             JSONObject rootObject=new JSONObject(jsonResponse);
+            if(rootObject.isNull("volumeInfo")){
+                return null;
+            }
             JSONObject valueInfoObject = rootObject.optJSONObject("volumeInfo");
+
             //get authors from json
             JSONArray authorArray = valueInfoObject.optJSONArray("authors");
             StringBuilder authors = new StringBuilder();
@@ -237,6 +242,7 @@ public class BookUtility {
                     authors.append(currentString).append(",");
                 }
             }
+
             //get thumbnail from json
             String bookThumnailUrl;
             if (valueInfoObject.isNull("imageLinks")) {
@@ -246,18 +252,62 @@ public class BookUtility {
                 JSONObject imageObject = valueInfoObject.getJSONObject("imageLinks");
                 bookThumnailUrl = imageObject.optString("thumbnail");
             }
+
             //get title from json
             String bookTitle = valueInfoObject.optString("title");
             //get description from json
             String bookDesc = valueInfoObject.optString("description");
+
             //get datePublished from json
             String publishedDate;
             if(!valueInfoObject.isNull("publishedDate")){
                 publishedDate=valueInfoObject.optString("publishedDate");
-            }
+            }else publishedDate="";
 
-            else publishedDate=" ";
-           book.add(new Book(bookTitle,authors.toString(),bookDesc,bookThumnailUrl,publishedDate));
+            //getting page count
+            int pageCount;
+            if(!valueInfoObject.isNull("pageCount")){
+                pageCount=valueInfoObject.getInt("pageCount");
+            }
+            else pageCount=0;
+            bookDesc+=" \n pageCount="+pageCount+"\n";
+            //getting printype
+            String printType;
+            if(!valueInfoObject.isNull("printType")){
+                printType=valueInfoObject.optString("printType");
+            }else printType="";
+            bookDesc+=" print type ="+printType+"\n";
+            //getting publisher if available
+            String publisher;
+            if (!valueInfoObject.isNull("publisher")){
+                publisher=valueInfoObject.optString("publisher");
+            }
+            else publisher="";
+            bookDesc+=" publisher="+publisher+"\n";
+            //getting saleInfo object
+            JSONObject saleInfoObject=rootObject.optJSONObject("saleInfo");
+            String saleability;
+            if(!saleInfoObject.isNull("saleability")){
+                saleability=saleInfoObject.optString("saleability");
+            }else saleability="";
+            bookDesc+=" saleability="+saleability+"\n";
+            String buyLink;
+            if(!saleInfoObject.isNull("buyLink")){
+                buyLink=saleInfoObject.optString("buyLink");
+            }else buyLink="";
+            bookDesc+=" buy link ="+buyLink+"\n";
+
+            //getting accessInfo object
+            JSONObject accessInfoObject=rootObject.optJSONObject("accessInfo");
+            String webReaderlink;
+            if(!accessInfoObject.isNull("webReaderLink")){
+                webReaderlink=accessInfoObject.optString("webReaderLink");
+            }
+            else webReaderlink="";
+            bookDesc+="  webReaderlink ="+webReaderlink+"\n";
+
+            book.add(new Book(bookTitle,authors.toString(),bookDesc,bookThumnailUrl,publishedDate
+            ,pageCount,printType,publisher,saleability,buyLink,webReaderlink));
 
             return book;
         }catch (Exception e){

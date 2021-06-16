@@ -10,13 +10,20 @@ import androidx.loader.content.Loader;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.renderscript.ScriptGroup;
+
+import android.os.SystemClock;
 import android.text.Html;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import com.github.ybq.android.spinkit.sprite.Sprite;
+import com.github.ybq.android.spinkit.style.Circle;
+import com.github.ybq.android.spinkit.style.FadingCircle;
+import com.github.ybq.android.spinkit.style.RotatingCircle;
+import com.github.ybq.android.spinkit.style.ThreeBounce;
+import com.github.ybq.android.spinkit.style.Wave;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -29,6 +36,8 @@ import static dev.techasyluminfo.bookhaikaya.MainActivity.*;
 
 public class DetailActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<List<Book>> {
     private static final String LOG_TAG = "DetailActivity";
+    private static final String SALE_FREE = "FREE";
+    private static final String NOT_FOR_SALE = "NOT_FOR_SALE";
     String selfUrl;
     private ActivityDetailBinding binding;
     List<Book> book = new ArrayList<>();
@@ -41,6 +50,9 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
         binding = ActivityDetailBinding.inflate(getLayoutInflater());
         View view = binding.getRoot();
         setContentView(view);
+        Sprite sprite =new ThreeBounce();
+        binding.lodingdetailSpinner.setIndeterminateDrawable(sprite);
+        binding.lodingdetailSpinner.setVisibility(View.VISIBLE);
         getDataFromIntent();
         LoaderManager loaderManager = LoaderManager.getInstance(this);
         loaderManager.initLoader(LOADER_ID, null, this);
@@ -64,6 +76,7 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
         }
         else{
             // TODO set empty view
+            binding.lodingdetailSpinner.setVisibility(View.INVISIBLE);
             Toast.makeText(this, "empty view", Toast.LENGTH_SHORT).show();
             return;
         }
@@ -72,7 +85,7 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
     private String createUrl(String selfUrl) {
         Uri baseUri = Uri.parse(selfUrl);
         Uri.Builder uriBuilder = baseUri.buildUpon();
-        uriBuilder.appendQueryParameter(API_KEY_PARAMETER, API_BOOK_KEY);
+       // uriBuilder.appendQueryParameter(API_KEY_PARAMETER, API_BOOK_KEY);
         Log.i(LOG_TAG, "createUrl: " + uriBuilder.toString());
         return uriBuilder.toString();
     }
@@ -109,10 +122,29 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
         String des = Html.fromHtml(description).toString();
         binding.bookDescriptionTxtView.setText(des);
 
-        String authorString = "Author : " + currentBook.getAuthorName();
-        binding.bookAutherTxtView.setText(authorString);
-
+        String authorString = currentBook.getAuthorName();
+        binding.authorWithTitleTxtView.setText(authorString);
         binding.datePublishedTextView.setText(currentBook.getDatepublished());
+        binding.lodingdetailSpinner.setVisibility(View.INVISIBLE);
+        binding.pageCountTxtView.setText(String.valueOf(currentBook.getPageCount()));
+        binding.printTypeTxtView.setText(currentBook.getPrintType());
+        binding.publisherTextView.setText(currentBook.getPublisher());
+        String saleability=currentBook.getSaleability();
+        binding.saleInfoTxtView.setText(saleability);
+        //TODO pdf downloder
+        binding.PdfTextView.setText("is available");
+        if(saleability.equals(SALE_FREE)){
+            binding.buyBookBtn.setText("FREE BOOK");
+
+        }
+        else if(saleability.equals(NOT_FOR_SALE)) {
+            binding.buyBookBtn.setText("NOT FOR SALE");
+
+        }else binding.buyBookBtn.setText("BUY BOOK");
+        
+        binding.lodingdetailSpinner.setVisibility(View.INVISIBLE);
+
+
 
     }
 
@@ -121,4 +153,6 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
         book.clear();
 
     }
+    // TODO Problem retrieving the Book JSON results.
+    //    java.net.SocketTimeoutException: timeout
 }

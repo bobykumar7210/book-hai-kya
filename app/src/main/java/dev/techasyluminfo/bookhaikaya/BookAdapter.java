@@ -70,7 +70,13 @@ public class BookAdapter extends ArrayAdapter<Book> {
         titleTextView.setText(currentBookItem.getBookTitle());
         publishedDateTextView.setText(currentBookItem.getDatepublished());
         authorTextView.setText(currentBookItem.getAuthorName());
-        // bookDescTextView.setText(currentBookItem.getBookDesc());
+        String desc = currentBookItem.getBookDesc();
+        if (desc.equals("")) {
+            bookDescTextView.setVisibility(View.GONE);
+        } else {
+            bookDescTextView.setVisibility(View.VISIBLE);
+            bookDescTextView.setText(desc);
+        }
         if (currentBookItem.getThumnailUrl() != null) {
             String thumnailUrl = currentBookItem.getThumnailUrl();
             if (thumnailUrl.equals(TEMP_IMAGE)) {

@@ -7,6 +7,75 @@ public class Book {
     private String thumnailUrl;
     private String datepublished;
     private String id;
+    private  int pageCount;
+    private  String printType;
+    private String publisher;
+    private  String saleability;
+    private String buylink;
+    private  String  webReaderLink;
+
+    public Book(String bookTitle, String authorName, String bookDesc, String thumnailUrl, String datepublished, int pageCount, String printType, String publisher, String saleability, String buylink, String webReaderLink) {
+        this.bookTitle = bookTitle;
+        this.authorName = authorName;
+        this.bookDesc = bookDesc;
+        this.thumnailUrl = thumnailUrl;
+        this.datepublished = datepublished;
+        this.pageCount = pageCount;
+        this.printType = printType;
+        this.publisher = publisher;
+        this.saleability = saleability;
+        this.buylink = buylink;
+        this.webReaderLink = webReaderLink;
+    }
+
+    public int getPageCount() {
+        return pageCount;
+    }
+
+    public void setPageCount(int pageCount) {
+        this.pageCount = pageCount;
+    }
+
+    public String getPrintType() {
+        return printType;
+    }
+
+    public void setPrintType(String printType) {
+        this.printType = printType;
+    }
+
+    public String getPublisher() {
+        return publisher;
+    }
+
+    public void setPublisher(String publisher) {
+        this.publisher = publisher;
+    }
+
+    public String getSaleability() {
+        return saleability;
+    }
+
+    public void setSaleability(String saleability) {
+        this.saleability = saleability;
+    }
+
+    public String getBuylink() {
+        return buylink;
+    }
+
+    public void setBuylink(String buylink) {
+        this.buylink = buylink;
+    }
+
+    public String getWebReaderLink() {
+        return webReaderLink;
+    }
+
+    public void setWebReaderLink(String webReaderLink) {
+        this.webReaderLink = webReaderLink;
+    }
+
 
     public String getId() {
         return id;
