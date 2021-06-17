@@ -71,12 +71,7 @@ public class BookAdapter extends ArrayAdapter<Book> {
         publishedDateTextView.setText(currentBookItem.getDatepublished());
         authorTextView.setText(currentBookItem.getAuthorName());
         String desc = currentBookItem.getBookDesc();
-        if (desc.equals("")) {
-            bookDescTextView.setVisibility(View.GONE);
-        } else {
-            bookDescTextView.setVisibility(View.VISIBLE);
-            bookDescTextView.setText(desc);
-        }
+
         if (currentBookItem.getThumnailUrl() != null) {
             String thumnailUrl = currentBookItem.getThumnailUrl();
             if (thumnailUrl.equals(TEMP_IMAGE)) {
@@ -85,6 +80,7 @@ public class BookAdapter extends ArrayAdapter<Book> {
                 // TODO add code for background task to Load image
                 Picasso.get()
                         .load(thumnailUrl)
+                        .resize(128,200)
                         .into(thumnailImageView);
             }
         }

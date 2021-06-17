@@ -270,32 +270,31 @@ public class BookUtility {
                 pageCount=valueInfoObject.getInt("pageCount");
             }
             else pageCount=0;
-            bookDesc+=" \n pageCount="+pageCount+"\n";
+
             //getting printype
             String printType;
             if(!valueInfoObject.isNull("printType")){
                 printType=valueInfoObject.optString("printType");
             }else printType="";
-            bookDesc+=" print type ="+printType+"\n";
+
             //getting publisher if available
             String publisher;
             if (!valueInfoObject.isNull("publisher")){
                 publisher=valueInfoObject.optString("publisher");
             }
             else publisher="";
-            bookDesc+=" publisher="+publisher+"\n";
+
             //getting saleInfo object
             JSONObject saleInfoObject=rootObject.optJSONObject("saleInfo");
             String saleability;
             if(!saleInfoObject.isNull("saleability")){
                 saleability=saleInfoObject.optString("saleability");
             }else saleability="";
-            bookDesc+=" saleability="+saleability+"\n";
+
             String buyLink;
             if(!saleInfoObject.isNull("buyLink")){
                 buyLink=saleInfoObject.optString("buyLink");
             }else buyLink="";
-            bookDesc+=" buy link ="+buyLink+"\n";
 
             //getting accessInfo object
             JSONObject accessInfoObject=rootObject.optJSONObject("accessInfo");
@@ -304,7 +303,6 @@ public class BookUtility {
                 webReaderlink=accessInfoObject.optString("webReaderLink");
             }
             else webReaderlink="";
-            bookDesc+="  webReaderlink ="+webReaderlink+"\n";
 
             book.add(new Book(bookTitle,authors.toString(),bookDesc,bookThumnailUrl,publishedDate
             ,pageCount,printType,publisher,saleability,buyLink,webReaderlink));

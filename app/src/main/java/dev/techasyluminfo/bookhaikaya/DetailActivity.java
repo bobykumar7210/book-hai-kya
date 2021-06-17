@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NavUtils;
+import androidx.core.app.ShareCompat;
 import androidx.loader.app.LoaderManager;
 import androidx.loader.content.Loader;
 
@@ -27,6 +28,7 @@ import com.github.ybq.android.spinkit.style.Wave;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.Currency;
 import java.util.List;
 
 import dev.techasyluminfo.bookhaikaya.databinding.ActivityDetailBinding;
@@ -38,10 +40,14 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
     private static final String LOG_TAG = "DetailActivity";
     private static final String SALE_FREE = "FREE";
     private static final String NOT_FOR_SALE = "NOT_FOR_SALE";
+    private static final String FOR_SALE = "FOR_SALE";
+    public static final String DETAIL_URL = "detail_url";
     String selfUrl;
     private ActivityDetailBinding binding;
     List<Book> book = new ArrayList<>();
     public static final int LOADER_ID = 34;
+    LoaderManager loaderManager;
+    int buyBtnKey;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,11 +56,14 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
         binding = ActivityDetailBinding.inflate(getLayoutInflater());
         View view = binding.getRoot();
         setContentView(view);
-        Sprite sprite =new ThreeBounce();
+
+        buyBtnKey = binding.buyBookBtn.getId();
+
+        Sprite sprite = new ThreeBounce();
         binding.lodingdetailSpinner.setIndeterminateDrawable(sprite);
         binding.lodingdetailSpinner.setVisibility(View.VISIBLE);
         getDataFromIntent();
-        LoaderManager loaderManager = LoaderManager.getInstance(this);
+        loaderManager = LoaderManager.getInstance(this);
         loaderManager.initLoader(LOADER_ID, null, this);
         // TODO on back pressed data reloding againg-2
     }
@@ -73,8 +82,7 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
         Intent intent = getIntent();
         if (intent.hasExtra(ID_KEY)) {
             selfUrl = intent.getStringExtra(ID_KEY);
-        }
-        else{
+        } else {
             // TODO set empty view
             binding.lodingdetailSpinner.setVisibility(View.INVISIBLE);
             Toast.makeText(this, "empty view", Toast.LENGTH_SHORT).show();
@@ -85,7 +93,7 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
     private String createUrl(String selfUrl) {
         Uri baseUri = Uri.parse(selfUrl);
         Uri.Builder uriBuilder = baseUri.buildUpon();
-       // uriBuilder.appendQueryParameter(API_KEY_PARAMETER, API_BOOK_KEY);
+        // uriBuilder.appendQueryParameter(API_KEY_PARAMETER, API_BOOK_KEY);
         Log.i(LOG_TAG, "createUrl: " + uriBuilder.toString());
         return uriBuilder.toString();
     }
@@ -104,6 +112,11 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
             book = data;
             Book currentBook = book.get(0);
             setDataToUI(currentBook);
+            onClickBtn(currentBook);
+        } else {
+            // TODO set empty view
+            binding.lodingdetailSpinner.setVisibility(View.INVISIBLE);
+            Toast.makeText(this, "something went wrong", Toast.LENGTH_SHORT).show();
         }
 
     }
@@ -113,11 +126,11 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
         if (thumbnailUrl.equals(TEMP_IMAGE)) {
             binding.bookThumbnailImgView.setImageResource(R.drawable.temp_thumbnail);
         } else {
-            Picasso.get().load(thumbnailUrl).into(binding.bookThumbnailImgView);
+            Picasso.get().load(thumbnailUrl).resize(150,250).into(binding.bookThumbnailImgView);
         }
 
         binding.bookTitleTxtView.setText(currentBook.getBookTitle());
-
+        binding.titleInAboutTextView.setText(currentBook.getBookTitle());
         String description = currentBook.getBookDesc();
         String des = Html.fromHtml(description).toString();
         binding.bookDescriptionTxtView.setText(des);
@@ -128,25 +141,96 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
         binding.lodingdetailSpinner.setVisibility(View.INVISIBLE);
         binding.pageCountTxtView.setText(String.valueOf(currentBook.getPageCount()));
         binding.printTypeTxtView.setText(currentBook.getPrintType());
-        binding.publisherTextView.setText(currentBook.getPublisher());
-        String saleability=currentBook.getSaleability();
+
+        String publisher=currentBook.getPublisher();
+        binding.publisherTextView.setText(publisher);
+        binding.publisherWithAuthorTxtView.setText(publisher);
+
+        String saleability = currentBook.getSaleability();
         binding.saleInfoTxtView.setText(saleability);
         //TODO pdf downloder
-        binding.PdfTextView.setText("is available");
-        if(saleability.equals(SALE_FREE)){
-            binding.buyBookBtn.setText("FREE BOOK");
+        binding.PdfTextView.setText("No info");
+
+
+        if (saleability.equals(SALE_FREE)) {
+            binding.buyBookBtn.setText("Free Book");
+            binding.buyBookBtn.setTag(buyBtnKey, SALE_FREE);
+
+        } else if (saleability.equals(NOT_FOR_SALE)) {
+            binding.buyBookBtn.setText("Not For Sale");
+            binding.buyBookBtn.setTag(buyBtnKey, NOT_FOR_SALE);
+
+
+        } else {
+            binding.buyBookBtn.setText("Buy Book");
+            binding.buyBookBtn.setTag(buyBtnKey, FOR_SALE);
 
         }
-        else if(saleability.equals(NOT_FOR_SALE)) {
-            binding.buyBookBtn.setText("NOT FOR SALE");
-
-        }else binding.buyBookBtn.setText("BUY BOOK");
-        
         binding.lodingdetailSpinner.setVisibility(View.INVISIBLE);
 
 
-
     }
+
+    private void onClickBtn(final Book currentBook) {
+       //setBtnView(currentBook);
+
+        binding.buyBookBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!loaderManager.hasRunningLoaders()) {
+                    String tag = binding.buyBookBtn.getTag(buyBtnKey).toString();
+                    if (tag.equals(NOT_FOR_SALE)) {
+                        Toast.makeText(DetailActivity.this, "Not for Sale", Toast.LENGTH_SHORT).show();
+                    } else {
+
+                        String bookBuylink = currentBook.getBuylink();
+                        if (!bookBuylink.equals("")) {
+                            openWebView(bookBuylink);
+
+                        } else {
+                            Toast.makeText(DetailActivity.this, "Sorry Buy option not available this Book right now " + tag, Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                } else {
+                    Toast.makeText(DetailActivity.this, "Data is loading", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+        binding.viewSampleBookBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String webReaderLink = currentBook.getWebReaderLink();
+                if (!webReaderLink.equals("")) {
+                    Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(webReaderLink));
+                    startActivity(intent);
+                } else {
+                    Toast.makeText(DetailActivity.this, "Sorry No View Available", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
+
+    private void openWebView(String link) {
+        Intent intent = new Intent(DetailActivity.this, WebActivity.class);
+        intent.putExtra(DETAIL_URL, link);
+        startActivity(intent);
+    }
+
+    private void setBtnView(Book currentBook) {
+        if (currentBook.getWebReaderLink().equals("")) {
+            binding.viewSampleBookBtn.setTextColor(getResources().getColor(android.R.color.darker_gray));
+        } else {
+            binding.viewSampleBookBtn.setTextColor(getResources().getColor(android.R.color.black));
+        }
+        if (currentBook.getBuylink().equals("")) {
+            binding.buyBookBtn.setTextColor(getResources().getColor(android.R.color.darker_gray));
+        } else {
+            binding.buyBookBtn.setTextColor(getResources().getColor(android.R.color.black));
+
+        }
+    }
+
 
     @Override
     public void onLoaderReset(@NonNull Loader<List<Book>> loader) {

@@ -1,101 +1,67 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
+    android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:orientation="horizontal"
+    android:orientation="vertical"
+    android:gravity="center_horizontal"
+    android:background="@android:color/white"
     android:padding="8dp">
 
     <ImageView
         android:id="@+id/thumnailImageView"
-        android:layout_width="64dp"
-        android:layout_height="100dp"
+        android:layout_width="128dp"
+        android:layout_height="200dp"
         android:adjustViewBounds="true"
-        android:scaleType="fitCenter"
-        android:layout_gravity="center"
-       />
+        android:scaleType="fitCenter" />
 
-    <RelativeLayout
-        android:layout_width="match_parent"
+    <TextView
+        android:id="@+id/titleTextView"
+        android:layout_width="128dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="4dp"
-        android:orientation="vertical">
+        android:layout_marginTop="8dp"
+        android:fontFamily="sans-serif-light"
+        android:gravity="start"
+        android:singleLine="true"
+        android:text=""
+        android:textColor="@android:color/secondary_text_light"
+        android:textSize="18sp"
+        android:typeface="monospace" />
 
-        <LinearLayout
-            android:id="@+id/linearDateLayout"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentEnd="true"
-            android:orientation="horizontal"
-            android:paddingEnd="8dp">
+    <TextView
+        android:id="@+id/bookDescTextView"
+        android:layout_width="128dp"
+        android:layout_height="wrap_content"
+        android:typeface="monospace"
+        android:fontFamily="sans-serif-light"
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="12sp"
+        android:visibility="gone" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="start"
-                android:text="published : "
-                android:textColor="@android:color/secondary_text_light_nodisable"
-                android:textSize="10sp" />
-
-            <TextView
-                android:id="@+id/datePublishedTextView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="start"
-                android:text="1-02-2021"
-                android:textColor="@android:color/secondary_text_light_nodisable"
-                android:textSize="10sp" />
-        </LinearLayout>
-
-        <TextView
-            android:id="@+id/titleTextView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:gravity="start"
-            android:paddingStart="8dp"
-            android:layout_below="@+id/linearDateLayout"
-            android:paddingEnd="8dp"
-            android:text="premchand ki kania"
-            android:textColor="@android:color/primary_text_light"
-            android:textSize="14sp" />
-        <TextView
-            android:id="@+id/bookDescTextView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/titleTextView"
-            android:paddingStart="8dp"
-            android:paddingEnd="8dp"
-            android:textColor="@android:color/secondary_text_light"
-            android:textSize="12sp"
-            />
-        <LinearLayout
-            android:id="@+id/linearAuthorLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/bookDescTextView"
-            android:orientation="horizontal"
-            android:paddingStart="8dp"
-            android:paddingEnd="8dp">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="start"
-                android:text="Authors : "
-                android:textColor="@android:color/secondary_text_light_nodisable"
-                android:textSize="12sp" />
-
-            <TextView
-                android:id="@+id/authorTextView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="start"
-                android:text="Boby kumar"
-                android:textColor="@android:color/secondary_text_light_nodisable"
-                android:textSize="12sp" />
-        </LinearLayout>
+    <TextView
+        android:id="@+id/authorTextView"
+        android:layout_width="128dp"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif-light"
+        android:gravity="start"
+        android:singleLine="true"
+        android:text=""
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="12sp"
+        android:textStyle="bold"
+        android:typeface="monospace" />
 
 
-    </RelativeLayout>
+    <TextView
+        android:id="@+id/datePublishedTextView"
+        android:layout_width="128dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:gravity="start"
+        android:typeface="monospace"
+        android:fontFamily="sans-serif-light"
+        android:text="1-02-2021"
+        android:textColor="@android:color/tertiary_text_light"
+        android:textSize="10sp" />
+
+
 </LinearLayout>

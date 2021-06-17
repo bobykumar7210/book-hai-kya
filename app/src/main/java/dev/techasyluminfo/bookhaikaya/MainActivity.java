@@ -72,7 +72,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
     BookAdapter bookAdapter;
     List<Book> bookList = new ArrayList<>();
-    ListView bookListView;
+    GridView bookListView;
     private ProgressBar progressBarSpinner;
     private TextView emptySateTextView;
 

@@ -5,6 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@color/colorBackgroundActivity"
+
     tools:context=".DetailActivity">
 
     <RelativeLayout
@@ -24,7 +26,6 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_margin="2dp"
             android:orientation="vertical">
 
             <ScrollView
@@ -46,60 +47,66 @@
 
                         <ImageView
                             android:id="@+id/bookThumbnailImgView"
-                            android:layout_width="128dp"
-                            android:layout_height="200dp"
+                            android:layout_width="150dp"
+                            android:layout_height="250dp"
                             android:layout_marginStart="10dp"
                             android:layout_marginTop="10dp"
-                            android:adjustViewBounds="true"
-                            android:scaleType="fitCenter" />
+                             />
 
                         <RelativeLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="10dp"
-                            android:layout_gravity="center"
                             android:layout_marginStart="10dp"
+                           android:layout_gravity="center_vertical"
                             android:layout_marginEnd="10dp"
                             android:layout_marginBottom="5dp">
 
 
                             <TextView
                                 android:id="@+id/bookTitleTxtView"
-                                android:layout_width="wrap_content"
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:fontFamily="sans-serif"
+                                android:singleLine="true"
                                 android:text=""
-                                android:textColor="@android:color/primary_text_light"
-                                android:textSize="15sp"
-                                android:textStyle="bold"
+                                android:gravity="start"
+                                android:textColor="@android:color/secondary_text_light"
+                                android:textSize="20sp"
+                                android:fontFamily="sans-serif-light"
+
                                 android:typeface="monospace" />
 
                             <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_below="@+id/bookTitleTxtView"
-                                android:gravity="start"
-                                android:orientation="horizontal">
+                                android:orientation="vertical">
 
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:fontFamily="sans-serif"
-                                    android:gravity="start"
-                                    android:text="Author : "
-                                    android:textColor="@android:color/primary_text_light_nodisable"
-                                    android:textSize="12sp"
-                                    android:typeface="monospace" />
+
 
                                 <TextView
                                     android:id="@+id/authorWithTitleTxtView"
-                                    android:layout_width="200dp"
+                                    android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:fontFamily="sans-serif"
                                     android:gravity="start"
                                     android:text=""
-                                    android:textColor="@android:color/primary_text_light_nodisable"
+                                    android:fontFamily="sans-serif-light"
+                                    android:typeface="monospace"
+                                    android:layout_marginTop="2dp"
+                                    android:textStyle="bold"
+                                    android:textColor="@color/colorPrimaryDark"
                                     android:textSize="12sp"
+                                    />
+                                <TextView
+                                    android:id="@+id/publisherWithAuthorTxtView"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="sans-serif-light"
+                                    android:gravity="start"
+                                    android:text=""
+                                    android:textColor="@android:color/tertiary_text_light"
+                                    android:textSize="10sp"
+                                    android:textStyle="bold"
                                     android:typeface="monospace" />
                             </LinearLayout>
 
@@ -107,273 +114,338 @@
 
 
                     </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginEnd="10dp"
+                        android:gravity="start"
+                        android:weightSum="2"
+                        android:orientation="horizontal"
+                        >
 
+                        <Button
+                            android:id="@+id/viewSampleBookBtn"
+                            android:layout_width="0dp"
+                            android:layout_height="40dp"
+                            android:layout_weight=".6"
+                            android:layout_marginEnd="5dp"
+                            android:elevation="10dp"
+                            android:background="@drawable/text_view_border"
+                            android:text="View Book"
+                            android:textAllCaps="false"
+                            android:fontFamily="sans-serif-light"
+                            android:typeface="monospace"
+                            android:textColor="@android:color/secondary_text_light" />
+
+                        <Button
+                            android:id="@+id/buyBookBtn"
+                            android:layout_width="0dp"
+                            android:layout_height="40dp"
+                            android:layout_weight="1"
+                            android:layout_marginStart="5dp"
+                            android:textAllCaps="false"
+                            android:background="@drawable/text_view_border"
+                            android:elevation="10dp"
+                            android:text="Buy Book"
+                            android:fontFamily="sans-serif-light"
+                            android:typeface="monospace"
+                            android:textColor="@android:color/secondary_text_light" />
+
+                    </LinearLayout>
                     <View
                         android:layout_width="wrap_content"
                         android:layout_height="1dp"
-                        android:layout_marginStart="5dp"
-                        android:layout_marginEnd="5dp"
+                        android:layout_marginTop="8dp"
                         android:background="@color/color_view_line" />
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="10dp"
-                        android:layout_marginTop="10dp"
+                        android:layout_marginTop="16dp"
                         android:layout_marginEnd="10dp"
-                        android:fontFamily="sans-serif"
                         android:text="About this edition"
                         android:textAlignment="textStart"
-                        android:textColor="@android:color/primary_text_light_nodisable"
-                        android:textSize="13sp"
-                        android:textStyle="bold"
-                        android:typeface="monospace" />
-
-                    <View
-                        android:layout_width="wrap_content"
-                        android:layout_height="1dp"
-                        android:layout_marginStart="10dp"
-                        android:layout_marginEnd="10dp"
-                        android:background="@color/color_view_line" />
-
+                        android:textColor="@android:color/secondary_text_light"
+                        android:textSize="20sp"
+                        android:fontFamily="sans-serif-light"
+                        android:typeface="monospace"
+                        />
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="10dp"
-                        android:layout_marginTop="5dp"
+                        android:layout_marginTop="16dp"
                         android:layout_marginEnd="10dp"
                         android:orientation="vertical">
 
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:orientation="horizontal"
-                            android:weightSum="2">
-
+                            android:orientation="vertical"
+                          >
                             <LinearLayout
-                                android:layout_width="0dp"
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_weight="1"
                                 android:gravity="start"
-                                android:weightSum="2">
+                                android:orientation="vertical"
+                                >
 
                                 <TextView
-                                    android:layout_width="0dp"
+                                    android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:layout_weight="1"
-                                    android:fontFamily="sans-serif"
+                                    android:fontFamily="sans-serif-light"
+                                    android:typeface="monospace"
                                     android:gravity="start"
-                                    android:text="Published : "
-                                    android:textColor="@android:color/primary_text_light_nodisable"
-                                    android:textSize="12sp"
-                                    android:textStyle="bold"
-                                    android:typeface="monospace" />
+                                    android:text="Title  "
+                                    android:textColor="@android:color/secondary_text_light"
+                                    android:textSize="16sp"
+                                    />
+
+                                <TextView
+                                    android:id="@+id/titleInAboutTextView"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="2dp"
+                                    android:gravity="start"
+                                    android:fontFamily="sans-serif-light"
+                                    android:typeface="monospace"
+                                    android:textColor="@android:color/tertiary_text_light"
+                                    android:textSize="14sp" />
+                            </LinearLayout>
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:gravity="start"
+                                android:orientation="vertical"
+                                >
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="sans-serif-light"
+                                    android:layout_marginTop="16dp"
+                                    android:typeface="monospace"
+                                    android:gravity="start"
+                                    android:text="Published  "
+                                    android:textColor="@android:color/secondary_text_light"
+                                    android:textSize="16sp"
+                                     />
 
                                 <TextView
                                     android:id="@+id/datePublishedTextView"
-                                    android:layout_width="0dp"
+                                    android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:layout_weight="1"
+                                    android:layout_marginTop="2dp"
                                     android:gravity="start"
-                                    android:textColor="@android:color/primary_text_light_nodisable"
-                                    android:textSize="12sp" />
+                                    android:fontFamily="sans-serif-light"
+                                    android:typeface="monospace"
+                                    android:textColor="@android:color/tertiary_text_light"
+                                    android:textSize="14sp" />
                             </LinearLayout>
 
                             <LinearLayout
-                                android:layout_width="0dp"
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_weight="1"
                                 android:gravity="start"
-                                android:weightSum="2">
+                                android:orientation="vertical"
+                                >
 
                                 <TextView
-                                    android:layout_width="0dp"
+                                    android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:layout_weight="1"
-                                    android:fontFamily="sans-serif"
+                                    android:fontFamily="sans-serif-light"
+                                    android:layout_marginTop="16sp"
                                     android:gravity="start"
-                                    android:text="Page count : "
-                                    android:textColor="@android:color/primary_text_light_nodisable"
-                                    android:textSize="12sp"
-                                    android:textStyle="bold"
+                                    android:text="Page Count  "
+                                    android:textColor="@android:color/secondary_text_light"
+                                    android:textSize="16sp"
                                     android:typeface="monospace" />
 
                                 <TextView
                                     android:id="@+id/pageCountTxtView"
-                                    android:layout_width="0dp"
+                                    android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:layout_weight="1"
+                                    android:layout_marginTop="2dp"
                                     android:gravity="start"
-                                    android:textColor="@android:color/primary_text_light_nodisable"
-                                    android:textSize="12sp" />
+                                    android:fontFamily="sans-serif-light"
+                                    android:typeface="monospace"
+
+                                    android:textColor="@android:color/tertiary_text_light"
+                                    android:textSize="14sp" />
                             </LinearLayout>
                         </LinearLayout>
 
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:orientation="horizontal"
-                            android:weightSum="2">
+                            android:orientation="vertical"
+                           >
 
                             <LinearLayout
-                                android:layout_width="0dp"
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_weight="1"
                                 android:gravity="start"
-                                android:weightSum="2">
+                                android:orientation="vertical"
+                                >
 
                                 <TextView
-                                    android:layout_width="0dp"
+                                    android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:layout_weight="1"
-                                    android:fontFamily="sans-serif"
+                                    android:fontFamily="sans-serif-light"
+                                    android:layout_marginTop="16sp"
                                     android:gravity="start"
-                                    android:text="Print Type : "
-                                    android:textColor="@android:color/primary_text_light_nodisable"
-                                    android:textSize="12sp"
-                                    android:textStyle="bold"
+                                    android:text="Print Type"
+                                    android:textColor="@android:color/secondary_text_light"
+                                    android:textSize="16sp"
                                     android:typeface="monospace" />
 
                                 <TextView
                                     android:id="@+id/printTypeTxtView"
-                                    android:layout_width="0dp"
+                                    android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:layout_weight="1"
+                                    android:layout_marginTop="2dp"
                                     android:gravity="start"
                                     android:text=""
-                                    android:textColor="@android:color/primary_text_light_nodisable"
-                                    android:textSize="12sp" />
+                                    android:fontFamily="sans-serif-light"
+                                    android:typeface="monospace"
+                                    android:textColor="@android:color/tertiary_text_light"
+                                    android:textSize="14sp" />
                             </LinearLayout>
 
                             <LinearLayout
-                                android:layout_width="0dp"
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_weight="1"
                                 android:gravity="start"
-                                android:weightSum="2">
+                                android:orientation="vertical"
+                                >
 
                                 <TextView
-                                    android:layout_width="0dp"
+                                    android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:layout_weight="1"
-                                    android:fontFamily="sans-serif"
+                                    android:layout_marginTop="16dp"
+                                    android:fontFamily="sans-serif-light"
                                     android:gravity="start"
-                                    android:text="Publisher :"
-                                    android:textColor="@android:color/primary_text_light_nodisable"
-                                    android:textSize="12sp"
-                                    android:textStyle="bold"
+                                    android:text="Publisher"
+                                    android:textColor="@android:color/secondary_text_light"
+                                    android:textSize="16sp"
                                     android:typeface="monospace" />
 
                                 <TextView
                                     android:id="@+id/publisherTextView"
-                                    android:layout_width="0dp"
+                                    android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:layout_weight="1"
+                                    android:layout_marginTop="2dp"
                                     android:gravity="start"
-                                    android:textColor="@android:color/primary_text_light_nodisable"
-                                    android:textSize="12sp" />
+                                    android:fontFamily="sans-serif-light"
+                                    android:typeface="monospace"
+                                    android:textColor="@android:color/tertiary_text_light"
+                                    android:textSize="14sp" />
                             </LinearLayout>
                         </LinearLayout>
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:orientation="horizontal"
-                            android:weightSum="2">
+                           android:orientation="vertical">
 
                             <LinearLayout
-                                android:layout_width="0dp"
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_weight="1"
                                 android:gravity="start"
-                                android:weightSum="2">
+                                android:orientation="vertical"
+                              >
 
                                 <TextView
-                                    android:layout_width="0dp"
+                                    android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:layout_weight="1"
-                                    android:fontFamily="sans-serif"
+                                    android:fontFamily="sans-serif-light"
+                                    android:layout_marginTop="16dp"
                                     android:gravity="start"
-                                    android:text="Sale Info : "
-                                    android:textColor="@android:color/primary_text_light_nodisable"
-                                    android:textSize="12sp"
-                                    android:textStyle="bold"
+                                    android:text="Sale Info "
+                                    android:textColor="@android:color/secondary_text_light"
+                                    android:textSize="16sp"
                                     android:typeface="monospace" />
 
                                 <TextView
                                     android:id="@+id/saleInfoTxtView"
-                                    android:layout_width="0dp"
+                                    android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:layout_weight="1"
+                                    android:layout_marginTop="2dp"
                                     android:gravity="start"
                                     android:text=""
-                                    android:textColor="@android:color/primary_text_light_nodisable"
-                                    android:textSize="12sp" />
+                                    android:fontFamily="sans-serif-light"
+                                    android:typeface="monospace"
+                                    android:textColor="@android:color/tertiary_text_light"
+                                    android:textSize="14sp" />
                             </LinearLayout>
 
                             <LinearLayout
-                                android:layout_width="0dp"
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_weight="1"
                                 android:gravity="start"
-                                android:weightSum="2">
+                                android:orientation="vertical"
+                               >
 
                                 <TextView
-                                    android:layout_width="0dp"
+                                    android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:layout_weight="1"
-                                    android:fontFamily="sans-serif"
+                                    android:fontFamily="sans-serif-light"
+                                    android:layout_marginTop="16dp"
                                     android:gravity="start"
-                                    android:text="Pdf :"
-                                    android:textColor="@android:color/primary_text_light_nodisable"
-                                    android:textSize="12sp"
-                                    android:textStyle="bold"
+                                    android:text="Pdf "
+                                    android:textColor="@android:color/secondary_text_light"
+                                    android:textSize="16sp"
                                     android:typeface="monospace" />
 
                                 <TextView
                                     android:id="@+id/PdfTextView"
-                                    android:layout_width="0dp"
+                                    android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:layout_weight="1"
+                                    android:layout_marginTop="2dp"
                                     android:gravity="start"
-                                    android:textColor="@android:color/primary_text_light_nodisable"
-                                    android:textSize="12sp" />
+                                    android:fontFamily="sans-serif-light"
+                                    android:typeface="monospace"
+                                    android:textColor="@android:color/tertiary_text_light"
+                                    android:textSize="14sp" />
                             </LinearLayout>
                         </LinearLayout>
                     </LinearLayout>
-
+                    <View
+                        android:layout_width="wrap_content"
+                        android:layout_height="1dp"
+                        android:layout_marginTop="16dp"
+                        android:background="@color/color_view_line" />
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="10dp"
-                        android:layout_marginTop="10dp"
+                        android:layout_marginTop="16dp"
                         android:layout_marginEnd="10dp"
-                        android:fontFamily="sans-serif"
+                        android:fontFamily="sans-serif-light"
+                        android:typeface="monospace"
                         android:text="Description"
                         android:textAlignment="textStart"
-                        android:textColor="@android:color/primary_text_light_nodisable"
-                        android:textSize="13sp"
-                        android:textStyle="bold"
-                        android:typeface="monospace" />
+                        android:textColor="@android:color/secondary_text_light"
+                        android:textSize="20sp"
 
-                    <View
-                        android:layout_width="wrap_content"
-                        android:layout_height="1dp"
-                        android:layout_marginStart="10dp"
-                        android:layout_marginEnd="10dp"
-                        android:background="@color/color_view_line" />
+                         />
+
+
 
                     <TextView
                         android:id="@+id/bookDescriptionTxtView"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="10dp"
-                        android:layout_marginTop="5dp"
+                        android:layout_marginTop="16dp"
                         android:layout_marginEnd="10dp"
                         android:layout_marginBottom="5dp"
-                        android:fontFamily="sans-serif"
-                        android:text="gfdgf"
+                        android:fontFamily="sans-serif-light"
+                        android:text=""
                         android:autoLink="web"
-                        android:textColorLink="@color/colorAccent"
+                        android:textColorLink="@color/colorPrimaryDark"
                         android:textAlignment="textStart"
                         android:textColor="@android:color/secondary_text_light"
                         android:textSize="13sp"
@@ -381,39 +453,7 @@
                 </LinearLayout>
             </ScrollView>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:layout_marginStart="10dp"
-                android:layout_marginEnd="10dp"
-                android:layout_marginBottom="5dp"
-                android:orientation="horizontal"
-                android:weightSum="2">
 
-                <Button
-                    android:id="@+id/viewSampleBtn"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="2.5dp"
-                    android:layout_weight="1"
-                    android:elevation="10dp"
-                    android:background="@drawable/text_view_border"
-                    android:text="View book"
-                    android:textColor="@android:color/darker_gray" />
-
-                <Button
-                    android:id="@+id/buyBookBtn"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="2.5dp"
-                    android:layout_weight="1"
-                    android:background="@drawable/text_view_border"
-                    android:elevation="10dp"
-                    android:text="Buy Book"
-                    android:textColor="@android:color/darker_gray" />
-
-            </LinearLayout>
         </LinearLayout>
 
     </RelativeLayout>
