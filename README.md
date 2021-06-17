@@ -4,13 +4,25 @@ This app displays list of books based on your filter from API Google book Api an
 
  Api- [here](https://developers.google.com/books/docs/overview)
  
-**Apk download** - [here](https://github.com/bobykumar7210/Bhukamp/raw/master/image/app-debug.apk)
+**Apk download** - [here](https://github.com/bobykumar7210/book-hai-kya/raw/master/image/app-debug.apk)
 
 ## App Sreenshots
 
-home-![](/image/home.png) 
+### Home-
 
-setting-![](/image/setting.png)  
+![](/image/home.png) 
+
+### Setting-
+
+![](/image/settings.png)  
+
+### Detail 1-
+
+![](/image/detail1.png) 
+
+### Detail 2-
+
+![](/image/detail2.png)  
 
 ## App content
 * home contain list of books fetch from api with users filter
