@@ -2,6 +2,10 @@
 
 This app displays list of books based on your filter from API Google book Api and provide filter option for users can view book 
 
+ # Important 
+ 
+ In this Project Git has two branches master and detailAcivity .The whole project in detailActivity Branch
+
  Api- [here](https://developers.google.com/books/docs/overview)
  
 **Apk download** - [here](https://github.com/bobykumar7210/book-hai-kya/raw/master/image/app-debug.apk)
